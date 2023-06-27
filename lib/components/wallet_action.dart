@@ -8,60 +8,61 @@ enum WalletActionItem {
   bridge,
   ;
 
-  static Text getActionText(WalletActionItem item) {
-    const TextStyle commonTextStyle = TextStyle(
-      fontSize: 14,
+  static Text getActionText(WalletActionItem item, double textSize) {
+    TextStyle commonTextStyle = TextStyle(
+      fontSize: textSize,
       fontWeight: FontWeight.bold,
+      fontFamily: 'Sofia',
     );
     switch (item) {
       case WalletActionItem.bridge:
-        return const Text(
+        return Text(
           'BRIDGE',
           style: commonTextStyle,
         );
       case WalletActionItem.send:
-        return const Text(
+        return Text(
           'SEND',
           style: commonTextStyle,
         );
       case WalletActionItem.swap:
-        return const Text(
+        return Text(
           'SWAP',
           style: commonTextStyle,
         );
       case WalletActionItem.receive:
-        return const Text(
+        return Text(
           'RECEIVE',
           style: commonTextStyle,
         );
     }
   }
 
-  static SvgPicture getActionIcon(WalletActionItem item) {
+  static SvgPicture getActionIcon(WalletActionItem item, double size) {
     switch (item) {
       case WalletActionItem.bridge:
         return SvgPicture.asset(
           'assets/icons/wallet_bridge.svg',
-          width: 18,
-          height: 18,
+          width: size,
+          height: size,
         );
       case WalletActionItem.send:
         return SvgPicture.asset(
           'assets/icons/wallet_send.svg',
-          width: 18,
-          height: 18,
+          width: size,
+          height: size,
         );
       case WalletActionItem.swap:
         return SvgPicture.asset(
           'assets/icons/wallet_swap.svg',
-          width: 18,
-          height: 18,
+          width: size,
+          height: size,
         );
       case WalletActionItem.receive:
         return SvgPicture.asset(
           'assets/icons/wallet_receive.svg',
-          width: 18,
-          height: 18,
+          width: size,
+          height: size,
         );
     }
   }
@@ -75,10 +76,26 @@ class WalletAction extends StatelessWidget {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        WalletActionButton(item: WalletActionItem.receive),
-        WalletActionButton(item: WalletActionItem.send),
-        WalletActionButton(item: WalletActionItem.swap),
-        WalletActionButton(item: WalletActionItem.bridge),
+        WalletActionButton(
+          item: WalletActionItem.receive,
+          iconSize: 18,
+          textSize: 14,
+        ),
+        WalletActionButton(
+          item: WalletActionItem.send,
+          iconSize: 18,
+          textSize: 14,
+        ),
+        WalletActionButton(
+          item: WalletActionItem.swap,
+          iconSize: 18,
+          textSize: 14,
+        ),
+        WalletActionButton(
+          item: WalletActionItem.bridge,
+          iconSize: 18,
+          textSize: 14,
+        ),
       ],
     );
   }
@@ -86,18 +103,23 @@ class WalletAction extends StatelessWidget {
 
 class WalletActionButton extends StatelessWidget {
   final WalletActionItem item;
+  final double textSize;
+  final double iconSize;
 
-  const WalletActionButton({super.key, required this.item});
+  const WalletActionButton({
+    super.key,
+    required this.item,
+    required this.textSize,
+    required this.iconSize,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        WalletActionItem.getActionIcon(item),
-        const SizedBox(
-          width: 3,
-        ),
-        WalletActionItem.getActionText(item)
+        WalletActionItem.getActionIcon(item, iconSize),
+        const SizedBox(width: 3),
+        WalletActionItem.getActionText(item, textSize)
       ],
     );
   }

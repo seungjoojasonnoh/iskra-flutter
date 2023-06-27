@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WalletProfile extends StatelessWidget {
   const WalletProfile({super.key});
@@ -22,11 +23,35 @@ class WalletProfile extends StatelessWidget {
         const SizedBox(
           width: 16,
         ),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('jasonnoh'),
-            Text('0x832c....C7975ff4'),
+            const Text(
+              'jasonnoh',
+              style: TextStyle(
+                fontFamily: 'Sofia',
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/wallet.svg',
+                  width: 16,
+                  height: 16,
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  '0x832c....C7975ff4',
+                  style: TextStyle(
+                    fontFamily: 'Sofia',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
           ],
         )
       ],
