@@ -34,10 +34,10 @@ class _MyAppState extends State<MyApp> {
     var headers = Request.headers;
     headers['Cookie'] = cookie;
     var walletAddress = await http.get(
-        Uri.parse('${Request.baseUrl}core/v2/wallet'),
+        Uri.parse('${Request.baseUrl}/core/v2/wallet'),
         headers: Request.headers);
     var balances = await http.get(
-        Uri.parse('${Request.baseUrl}core/v2/wallet/balances'),
+        Uri.parse('${Request.baseUrl}/core/v2/wallet/balances'),
         headers: Request.headers);
 
     Map<int, List<Token>> tokenMap = {};
@@ -85,58 +85,69 @@ class _MyAppState extends State<MyApp> {
           bodySmall: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
-      builder: (context, child) {
-        if (wallet == null) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              centerTitle: false,
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/iskra_logo.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+      home: wallet == null
+          ? const Center(child: CircularProgressIndicator())
+          : HomePage(wallet: wallet!),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  final Wallet wallet;
+
+  const HomePage({
+    super.key,
+    required this.wallet,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          centerTitle: false,
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/iskra_logo.png'),
+                    fit: BoxFit.cover,
                   ),
-                  const Text(
-                    ' I  S  K  R  A',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Sofia',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+                ),
               ),
-              elevation: 0,
-            ),
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const WalletProfile(),
-                  const SizedBox(height: 18),
-                  const WalletAction(),
-                  const SizedBox(height: 18),
-                  WalletOverview(wallet: wallet!),
-                  const SizedBox(height: 18),
-                ],
+              const Text(
+                ' I  S  K  R  A',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Sofia',
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+            ],
           ),
-        );
-      },
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const WalletProfile(),
+              const SizedBox(height: 18),
+              const WalletAction(),
+              const SizedBox(height: 18),
+              WalletOverview(wallet: wallet),
+              const SizedBox(height: 18),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

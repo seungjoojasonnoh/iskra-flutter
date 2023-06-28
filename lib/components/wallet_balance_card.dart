@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iskra_flutter/components/wallet_action.dart';
+import 'package:iskra_flutter/components/wallet_send_modal.dart';
 import 'package:iskra_flutter/models/chain.dart';
 
 class WalletBalanceCard extends StatelessWidget {
@@ -110,22 +111,39 @@ class WalletBalanceCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 5),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                WalletActionButton(
-                  item: WalletActionItem.send,
-                  iconSize: 12,
-                  textSize: 12,
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet<void>(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WalletSendModal(
+                            chainId: chainId,
+                            symbol: symbol,
+                          );
+                        });
+                  },
+                  child: const WalletActionButton(
+                    item: WalletActionItem.send,
+                    iconSize: 12,
+                    textSize: 12,
+                  ),
                 ),
-                SizedBox(width: 5),
-                WalletActionButton(
+                const SizedBox(width: 5),
+                const WalletActionButton(
                   item: WalletActionItem.swap,
                   iconSize: 12,
                   textSize: 12,
                 ),
-                SizedBox(width: 5),
-                WalletActionButton(
+                const SizedBox(width: 5),
+                const WalletActionButton(
                   item: WalletActionItem.bridge,
                   iconSize: 12,
                   textSize: 12,
